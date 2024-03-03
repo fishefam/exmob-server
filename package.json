@@ -2,8 +2,8 @@
   "name": "exmob-server",
   "version": "1.0.0",
   "scripts": {
-    "build": "node build",
-    "start": "node dist"
+    "build": "node build.mjs",
+    "start": "node dist/index.js"
   },
   "author": "Truong Nguyen",
   "devDependencies": {
