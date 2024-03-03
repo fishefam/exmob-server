@@ -1,4 +1,6 @@
+import express from '@fastify/express'
 import Fastify from 'fastify'
+import { cors } from 'middleware'
 
 main()
 
@@ -18,6 +20,10 @@ async function main() {
 
 function setup() {
   const fastify = Fastify()
+
+  fastify.register(express)
+  fastify.use(cors())
+
   fastify.get('/mobius', async () => {
     return { hello: 'world' }
   })
