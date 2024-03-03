@@ -1,7 +1,8 @@
 import middleware from '@fastify/middie'
 import Fastify from 'fastify'
-import * as mobius from 'handler/mobius'
-import { cors } from 'middleware'
+
+import * as mobius from './handler/mobius.ts'
+import { cors } from './middleware.ts'
 
 main()
 
@@ -15,7 +16,7 @@ async function main() {
       fastify.log.error(error)
       process.exit(1)
     }
-    console.log(`Server is serving on ${address}`)
+    console.log(`Server is running on ${/\[.*\]/.test(address) ? `${host}:${port}` : address}`)
   })
 }
 
