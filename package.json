@@ -1,0 +1,33 @@
+{
+  "name": "exmob-server",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node build",
+    "start": "node dist"
+  },
+  "author": "Truong Nguyen",
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.6.3",
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "esbuild": "^0.20.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-tsr": "^0.2.4",
+    "eslint-plugin-hooks": "^0.4.3",
+    "eslint-plugin-perfectionist": "^2.5.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-sort-react-dependency-arrays": "^0.3.0",
+    "eslint-plugin-tailwindcss": "^3.14.3",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-sort-json": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "fastify": "^4.26.1"
+  }
+}
