@@ -22,9 +22,5 @@ async function main() {
       const cp = exec('pnpm start')
       cp.stdout?.pipe(process.stdout)
     })
-  if (!isDevelopment) {
-    await build(buildOption)
-    const cp = exec('pnpm start')
-    cp.stdout?.pipe(process.stdout)
-  }
+  if (!isDevelopment) build(buildOption)
 }
