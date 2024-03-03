@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "cross-env NODE_ENV=development jiti build.ts",
-    "build": "cross-env NODE_ENV=production jiti build.ts",
+    "build": "jiti build.ts",
     "start": "node dist"
   },
   "author": "Truong Nguyen",
