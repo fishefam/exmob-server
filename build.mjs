@@ -1,12 +1,11 @@
 import { build } from 'esbuild'
 
 build({
-  bundle: false,
+  bundle: true,
   entryPoints: ['src/index.ts'],
-  format: 'iife',
+  format: 'esm',
   logLevel: 'info',
   minify: true,
-  outdir: 'dist',
+  outfile: 'dist/index.js',
   platform: 'node',
-  target: 'es2016',
 })

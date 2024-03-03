@@ -1,11 +1,11 @@
-import express from '@fastify/express'
+import middleware from '@fastify/middie'
 import Fastify from 'fastify'
 import { cors } from 'middleware'
 
 main()
 
 async function main() {
-  const fastify = setup()
+  const fastify = await setup()
   const port = parseInt(process.env.PORT || '3000')
   const host = 'RENDER' in process.env ? `0.0.0.0` : `localhost`
 
@@ -18,10 +18,10 @@ async function main() {
   })
 }
 
-function setup() {
+async function setup() {
   const fastify = Fastify()
 
-  fastify.register(express)
+  await fastify.register(middleware)
   fastify.use(cors())
 
   fastify.get('/mobius', async () => {
