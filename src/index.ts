@@ -1,5 +1,6 @@
 import middleware from '@fastify/middie'
 import Fastify from 'fastify'
+import * as mobius from 'handler/mobius'
 import { cors } from 'middleware'
 
 main()
@@ -24,8 +25,6 @@ async function setup() {
   await fastify.register(middleware)
   fastify.use(cors())
 
-  fastify.get('/mobius', async () => {
-    return { hello: 'world' }
-  })
+  fastify.post('/mobius', mobius.POST)
   return fastify
 }
