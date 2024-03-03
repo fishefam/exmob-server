@@ -1,17 +1,20 @@
-import type { FastifyRequest } from 'fastify'
-
 import Fastify from 'fastify'
 
 main()
 
 async function main() {
   const fastify = setup()
-  await fastify.listen({ port: 3000 })
+  fastify.listen({ port: parseInt(process.env.PORT ?? '3000') }, (error, address) => {
+    if (error) {
+      fastify.log.error(error)
+      process.exit(1)
+    }
+  })
 }
 
 function setup() {
   const fastify = Fastify()
-  fastify.get('/mobius', async (request: FastifyRequest) => {
+  fastify.get('/mobius', async () => {
     return { hello: 'world' }
   })
   return fastify
