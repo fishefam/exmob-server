@@ -1,5 +1,6 @@
 declare module NodeJS {
   interface ProcessEnv {
+    DEV_HOST: 'true'
     NODE_ENV: 'development' | 'production'
   }
 }
