@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
     "allowJs": true,
-    "baseUrl": "src",
     "esModuleInterop": true,
     "lib": ["es2022"],
     "module": "ESNext",
@@ -11,6 +9,7 @@
     "noEmit": true,
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",

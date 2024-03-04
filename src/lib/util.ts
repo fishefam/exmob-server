@@ -1,11 +1,15 @@
-import type { FastifyRequest } from 'fastify'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { minify } from 'minify'
 
-import type { TMinifyClientOption } from '../type/mobius.ts'
+import type { TMinifyClientOption } from '../../type/mobius'
 
 export function getRequestBody<T extends object>(request: FastifyRequest) {
   return request.body as T
+}
+
+export function sendJSONResponse<T extends object>(obj: T, reply: FastifyReply) {
+  reply.send(obj)
 }
 
 export async function splitHTMLString(input: string, option?: TMinifyClientOption) {

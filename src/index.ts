@@ -1,8 +1,11 @@
 import middleware from '@fastify/middie'
 import Fastify from 'fastify'
 
-import * as mobius from './handler/mobius.ts'
-import { cors } from './middleware.ts'
+import type { TRoute } from '../type/util'
+
+import * as mobiusHTML from './handler/mobius/html'
+import * as mobius from './handler/mobius/index'
+import { cors } from './middleware'
 
 main()
 
@@ -26,6 +29,12 @@ async function setup() {
   await fastify.register(middleware)
   fastify.use(cors())
 
-  fastify.post('/mobius', mobius.POST)
+  const routes: TRoute[] = [
+    { handler: mobius.POST, method: 'post', path: '/mobius' },
+    { handler: mobiusHTML.POST, method: 'post', path: '/mobius/html' },
+  ]
+
+  for (const { handler, method, path } of routes) fastify[method](path, handler)
+
   return fastify
 }

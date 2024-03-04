@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import type { TRequestData } from '../type/mobius.ts'
+import type { TRequestData } from '../../../type/mobius'
 
-import { getRequestBody, splitHTMLString } from '../lib/util.ts'
+import { getRequestBody, splitHTMLString } from '../../lib/util'
 
 export async function POST(request: FastifyRequest, reply: FastifyReply) {
   const { algorithm, authorNote, feedback, question } = getRequestBody<TRequestData>(request)

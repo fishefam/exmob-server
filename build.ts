@@ -1,9 +1,11 @@
-import { exec } from 'child_process'
+import type { Stats } from 'fs'
+
 import chokidar from 'chokidar'
 import { build, type BuildOptions, type Plugin } from 'esbuild'
-import clean from 'esbuild-plugin-clean'
 import { readdirSync, readFileSync, writeFileSync } from 'fs'
+import nodemon from 'nodemon'
 import { resolve } from 'path'
+import { rimrafSync } from 'rimraf'
 
 main()
 
@@ -17,17 +19,25 @@ async function main() {
     minify: true,
     outdir: 'dist',
     platform: 'node',
-    plugins: [clean({ cleanOnEndPatterns: ['dist/type'], cleanOnStartPatterns: ['dist'] }), changeExtPlugin()],
+    plugins: [changeExtPlugin()],
   }
 
   if (isDevelopment) {
-    chokidar.watch('src').on('all', async () => {
-      await build(buildOption)
-      exec('pnpm start')
-    })
     console.log('[watch] Watching `src` directory...')
+    const dev = (event?: string, path?: string, ___?: Stats) => {
+      rimrafSync('dist')
+      build(buildOption)
+      if (event && path) console.log(`[watch] ${event?.charAt(0).toUpperCase().concat(event.slice(1))} ${path}`)
+      if (event && path) console.log('[watch] Rebuild and restart server...')
+    }
+    dev()
+    nodemon('dist')
+    chokidar.watch(['src', 'type'], { ignoreInitial: true }).on('all', dev)
   }
-  if (!isDevelopment) build(buildOption)
+  if (!isDevelopment) {
+    rimrafSync('dist')
+    build(buildOption)
+  }
 }
 
 function changeExtPlugin(): Plugin {
@@ -37,7 +47,16 @@ function changeExtPlugin(): Plugin {
 function changeExt(path: string) {
   const absolute = resolve(path)
   const isFile = checkIsFile(absolute)
-  if (isFile) setFileContent({ match: /.ts"/g, path: absolute, text: '.js"' })
+  if (isFile) {
+    let content = readFileSync(absolute, { encoding: 'utf-8' })
+    const matches = content.match(/from(['"])\.\.?\/([^'"\n]+)(?:['"])/g) ?? []
+    const replaces = matches.map((match) => {
+      const temp = match.replace(/\.ts/gi, '').trim()
+      return { match, replace: temp.slice(0, -1) + '.js' + temp.slice(-1)[0] }
+    })
+    for (const { match, replace } of replaces) content = content.replace(match, replace)
+    writeFileSync(absolute, content)
+  }
   if (!isFile) {
     const items = readdirSync(absolute)
     for (const item of items) changeExt(`${path}/${item}`)
@@ -53,23 +72,4 @@ function checkIsFile(path: string) {
     isFile = false
   }
   return isFile
-}
-
-export async function setFileContent({
-  match,
-  path,
-  processor,
-  text,
-}: {
-  match?: RegExp | string
-  path: string
-  processor?: (input: string) => Promise<string> | string
-  text?: string
-}) {
-  const absolute = resolve(path)
-  const content = readFileSync(absolute, { encoding: 'utf-8' })
-  if (typeof text === 'undefined' && typeof match === 'undefined' && !processor) return
-  const newContent =
-    match && typeof text === 'string' ? content.replace(match, text) : processor ? processor(content) : content
-  writeFileSync(absolute, typeof newContent === 'string' ? newContent : await newContent)
 }
