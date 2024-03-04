@@ -34,7 +34,7 @@ async function setup() {
     { handler: mobiusHTML.POST, method: 'post', path: '/mobius/html' },
   ]
 
-  for (const { handler, method, path } of routes) fastify[method](path, handler)
+  for (const { handler, method, path } of routes) fastify[method]('/' + path.replace(/^\//, ''), handler)
 
   return fastify
 }
