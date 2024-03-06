@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import type { TRequestData } from '../../../type/mobius'
+import type { RequestData } from '../../../type/mobius'
 
 import { getRequestBody, splitHTMLString } from '../../lib/util'
 
 export async function POST(request: FastifyRequest, reply: FastifyReply) {
-  const { algorithm, authorNote, feedback, question } = getRequestBody<TRequestData>(request)
+  const { algorithm, authorNote, feedback, question } = getRequestBody<RequestData>(request)
   const [questionPack, authorNotePack, feedbackPack] = await Promise.all(
     [question, authorNote, feedback].map((value) => splitHTMLString(value)),
   )

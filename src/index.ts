@@ -1,18 +1,19 @@
 import middleware from '@fastify/middie'
 import Fastify from 'fastify'
 
-import type { TRoute } from '../type/util'
+import type { Route } from '../type/util'
 
 import * as mobiusHTML from './handler/mobius/html'
 import * as mobius from './handler/mobius/index'
+import { getPort } from './lib/util'
 import { cors } from './middleware'
 
 main()
 
 async function main() {
   const fastify = await setup()
-  const port = parseInt(process.env.PORT || '3000')
-  const host = 'RENDER' in process.env ? `0.0.0.0` : `localhost`
+  const port = parseInt(process.env.PORT || (await getPort(3000)).toString())
+  const host = process.env.RENDER ? `0.0.0.0` : `localhost`
 
   fastify.listen({ host, port }, (error, address) => {
     if (error) {
@@ -25,11 +26,9 @@ async function main() {
 
 async function setup() {
   const fastify = Fastify()
-
   await fastify.register(middleware)
   fastify.use(cors())
-
-  const routes: TRoute[] = [
+  const routes: Route[] = [
     { handler: mobius.POST, method: 'post', path: '/mobius' },
     { handler: mobiusHTML.POST, method: 'post', path: '/mobius/html' },
   ]

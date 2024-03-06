@@ -1,5 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
+import detectPort from 'detect-port'
 import { minify } from 'minify'
 
 import type { TMinifyClientOption } from '../../type/mobius'
@@ -8,7 +9,7 @@ export function getRequestBody<T extends object>(request: FastifyRequest) {
   return JSON.parse(request.body as string) as T
 }
 
-export function sendJSONResponse<T extends object>(obj: T, reply: FastifyReply) {
+export function sendResponse<T extends object>(obj: T, reply: FastifyReply) {
   reply.send(obj)
 }
 
@@ -57,4 +58,14 @@ export async function splitHTMLString(input: string, option?: TMinifyClientOptio
   let html = rawMinified
   for (const value of [...cssElements, ...jsScripts]) html = html.replace(value, '')
   return { css, externalScripts, html, js }
+}
+
+export async function getPort(port: number) {
+  let _port = port
+  try {
+    _port = await detectPort(_port)
+  } catch {
+    _port += 1
+  }
+  return _port
 }

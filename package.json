@@ -44,6 +44,7 @@
   "dependencies": {
     "@fastify/middie": "^8.3.0",
     "cors": "^2.8.5",
+    "detect-port": "^1.5.1",
     "fastify": "^4.26.1",
     "html-validate": "^8.11.1",
     "minify": "^11.0.1"

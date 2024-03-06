@@ -1,13 +1,13 @@
 import type { Options } from 'html-minifier-terser'
 
-export type TBaseCodeLang = 'CSS' | 'HTML' | 'JS'
-export type TCodeLang = 'MAPLE' | TBaseCodeLang
-export type TBaseSection = 'authorNote' | 'feedback' | 'question'
-export type TSection = 'algorithm' | TBaseSection
+export type BaseLang = 'CSS' | 'HTML' | 'JS'
+export type Lang = 'MAPLE' | BaseLang
+export type BaseSection = 'authorNote' | 'feedback' | 'question'
+export type Section = 'algorithm' | BaseSection
 
-export type TRequestData = { [key in TSection]: string }
-export type TResponseData = { [key in 'algorithm' | `${TBaseSection}${TBaseCodeLang}`]: string } & {
-  [key in `${TBaseSection}ExternalScripts`]: string[]
+export type RequestData = { [key in Section]: string }
+export type ResponseData = { [key in 'algorithm' | `${BaseSection}${BaseLang}`]: string } & {
+  [key in `${BaseSection}ExternalScripts`]: string[]
 }
 
 export type TMinifyClientOption = Omit<
