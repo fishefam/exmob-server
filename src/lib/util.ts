@@ -6,7 +6,9 @@ import { minify } from 'minify'
 import type { TMinifyClientOption } from '../../type/mobius'
 
 export function getRequestBody<T extends object>(request: FastifyRequest) {
-  return JSON.parse(request.body as string) as T
+  const { body } = request
+  if (typeof body === 'string') return JSON.parse(body) as T
+  return body as T
 }
 
 export function sendResponse<T extends object>(obj: T, reply: FastifyReply) {

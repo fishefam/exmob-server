@@ -3,6 +3,7 @@ import Fastify from 'fastify'
 
 import type { Route } from '../type/util'
 
+import * as keepAwake from './handler/keep-awake'
 import * as mobiusHTML from './handler/mobius/html'
 import * as mobius from './handler/mobius/index'
 import { getPort } from './lib/util'
@@ -26,14 +27,14 @@ async function main() {
 
 async function setup() {
   const fastify = Fastify()
-  await fastify.register(middleware)
-  fastify.use(cors())
   const routes: Route[] = [
     { handler: mobius.POST, method: 'post', path: '/mobius' },
     { handler: mobiusHTML.POST, method: 'post', path: '/mobius/html' },
+    { handler: keepAwake.GET, method: 'get', path: '/keep-awake' },
   ]
 
+  await fastify.register(middleware)
+  fastify.use(cors())
   for (const { handler, method, path } of routes) fastify[method]('/' + path.replace(/^\//, ''), handler)
-
   return fastify
 }

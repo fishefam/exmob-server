@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development jiti build.ts",
     "build": "jiti build.ts",
-    "start": "node dist"
+    "start": "node dist",
+    "run": "jiti build.ts && node dist"
   },
   "author": "Truong Nguyen",
   "devDependencies": {
